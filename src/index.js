@@ -1,6 +1,7 @@
 import 'phaser';
 
-import SceneMain from './scenes/main.scene';
+import GridScene from './scenes/grid.scene';
+import MainScene from './scenes/main.scene';
 import './utils/fontLoader';
 
 import app from './app';
@@ -11,7 +12,7 @@ window.onload = function() {
         parent: 'phaser-game',
         width: 480,
         height: 640,
-        scene: [SceneMain]
+        scene: [GridScene]
     };
 
     app.init(config);

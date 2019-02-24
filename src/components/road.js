@@ -60,13 +60,13 @@ export default class Road extends Phaser.GameObjects.Container {
         this.obstacle.y += this.vSpace / this.obstacle.speed;
 
         if (Collision.hasCollision(this.car, this.obstacle)) {
-            app.emitter.emit(Constants.INCREASE_SCORE, 1);
             this.car.alpha = .5;
         } else {
             this.car.alpha = 1;
         }
         
         if (this.obstacle.y > app.game.config.height) {
+            app.emitter.emit(Constants.INCREASE_SCORE, 1);
             this.obstacle.destroy();
             this.makeObstacle();
         }

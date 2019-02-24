@@ -4,12 +4,12 @@ import Road from '../components/road';
 import ScoreBox from '../components/scoreBox';
 import app from '../app';
 
-export default class SceneMain extends Phaser.Scene {
+export const SCENE_NAME = 'MainScene';
 
-    static get NAME() { return 'SceneMain'; }
+export default class MainScene extends Phaser.Scene {
 
     constructor() {
-        super(SceneMain.NAME);
+        super(SCENE_NAME);
     }
 
     preload() { 
@@ -26,7 +26,7 @@ export default class SceneMain extends Phaser.Scene {
     }
 
     create() {
-        app.emitter = new Phaser.Events.EventEmitter();
+        // app.emitter = new Phaser.Events.EventEmitter();
 
         this.road = new Road({ scene: this })
         this.road.x = this.game.config.width / 2;
@@ -34,7 +34,7 @@ export default class SceneMain extends Phaser.Scene {
         this.road.makeObstacle();
 
         this.scoreBox = new ScoreBox({ scene: this, emitter: app.emitter });
-        this.scoreBox.x = this.game.config.width / 2;
+        this.scoreBox.x = 50;
         this.scoreBox.y = 50;
     }
 
