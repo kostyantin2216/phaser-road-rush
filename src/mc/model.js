@@ -3,14 +3,20 @@ import Events from '../events';
 export default class Model {
     constructor(config) {
         this.emitter = config.emitter;
-        this._score = 0;
         this._soundOn = true;
         this._musicOn = true;
+        this.setDefaultValues();
+    }
+
+    setDefaultValues() {
+        this._gameOver = false;
+        this._score = 0;
+        this._speed = 1;
     }
 
     set score(val) {
         this._score = val;
-        console.log('new score', val);
+
         this.emitter.emit(Events.SCORE_UPDATED);
     }
 
@@ -36,5 +42,21 @@ export default class Model {
 
     get musicOn() {
         return this._musicOn;
+    }
+
+    set gameOver(val) {
+        this._gameOver = val;
+    }
+
+    get gameOver() {
+        return this._gameOver;
+    }
+
+    set speed(val) {
+        this._speed = val;
+    }
+
+    get speed() {
+        return this._speed;
     }
 }

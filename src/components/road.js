@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import app from '../app';
 import Events from '../events';
+import RK from '../resources-keys';
 
 import { scaleToGameWidth } from '../utils/align-utils';
 import { hasCollision } from '../utils/collision-utils';
@@ -17,7 +18,7 @@ export default class Road extends Phaser.GameObjects.Container {
         super(config.scene);
         this.scene = config.scene;
 
-        this.back = this.scene.add.image(0, 0, 'road');
+        this.back = this.scene.add.image(0, 0, RK.ROAD);
         this.add(this.back);
         this.scene.add.existing(this);
 
@@ -29,7 +30,7 @@ export default class Road extends Phaser.GameObjects.Container {
         this.vSpace = 0;
         this.lineGroup = this.scene.add.group();
 
-        this.car = this.scene.add.sprite(this.displayWidth / 4, app.game.config.height * .9, 'cars');
+        this.car = this.scene.add.sprite(this.displayWidth / 4, app.game.config.height * .9, RK.CARS);
         scaleToGameWidth(app, this.car, .12);
         this.add(this.car);
 
@@ -38,11 +39,24 @@ export default class Road extends Phaser.GameObjects.Container {
     }
 
     changeLanes() {
+        if (app.model.gameOver) return;
+
         const width = this.displayWidth / 4;
         this.car.x = this.car.x > 0 ? -width : width;
+        app.emitter.emit(Events.PLAY_SOUND, RK.CHANGE_LANE_SOUND);
     }
 
-    makeObstacle() {
+    create() {
+        this.createLines();
+        this.createObstacle();
+    }
+
+    update() {
+        this.updateLines();
+        this.updateObstacle();
+    }
+
+    createObstacle() {
         const index = Math.floor(Math.random() * 4);
         const obstacle = OBSTACLES[index];
 
@@ -57,32 +71,47 @@ export default class Road extends Phaser.GameObjects.Container {
         this.add(this.obstacle);
     }
 
-    moveObstacle() {
-        this.obstacle.y += this.vSpace / this.obstacle.speed;
+    updateObstacle() {
+        if (app.model.gameOver) return;
+
+        this.obstacle.y += (this.vSpace / this.obstacle.speed) * app.model.speed;
 
         if (hasCollision(this.car, this.obstacle)) {
-            app.emitter.emit(Events.PLAY_SOUND, 'crashSound');
+            app.emitter.emit(Events.PLAY_SOUND, RK.CRASH_SOUND);
+            this.scene.tweens.add({
+                targets: this.car,
+                duration: 1000,
+                y: app.game.config.height,
+                angle: -270
+            });
             app.emitter.emit(Events.GAME_OVER);
         } else if (this.obstacle.y > app.game.config.height) {
             app.emitter.emit(Events.INCREASE_SCORE, 1);
             this.obstacle.destroy();
-            this.makeObstacle();
+            this.createObstacle();
         }
     }
 
-    makeLines() {
-        this.vSpace = this.displayHeight / 10;
-        for (let i = 0; i < 30; i++) {
-            const line = this.scene.add.image(this.x, (this.vSpace * i) - 50, 'line');
-            line.setScale(.7);
+    createLines() {
+        this.vSpace = this.displayHeight / 5;
+        for (let i = 0; i < 20; i++) {
+            const line = this.scene.add.image(this.x, (this.vSpace * i) - 50, RK.LINE);
+           // line.setScale(.7);
             line.oy = line.y;
             this.lineGroup.add(line);
         }
     }
 
-    moveLines() {
+    updateLines() {
+        if (app.model.gameOver) return;
+        
+        let printed = false;
         this.lineGroup.children.iterate((child) => {
-            child.y += this.vSpace / 20;
+            child.y += (this.vSpace / 20) * app.model.speed;
+            if (!printed) {
+                console.log(child.y);
+                printed = true;
+            }
         });
         this.count++;
         if (this.count === 20) {

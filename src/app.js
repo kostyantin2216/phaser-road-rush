@@ -1,6 +1,7 @@
 import Phaser from 'phaser';
 import Model from './mc/model';
 import Controller from './mc/controller';
+import Events from './events';
 
 class App {
 
@@ -17,6 +18,7 @@ class App {
         this.game = new Phaser.Game(config);
         this.controller = new Controller({ emitter: this.emitter });
         this.model = new Model({ emitter: this.emitter });
+        this.emitter.on(Events.RESET_GAME, this.reset, this);
     }
 
     get isReady() {
@@ -30,7 +32,7 @@ class App {
     reset() {
         this.emitter.removeAllListeners();
         this.controller.registerEvents();
-        this.model.score = 0;
+        this.emitter.on(Events.RESET_GAME, this.reset, this);
     }
 
 }

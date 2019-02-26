@@ -5,6 +5,7 @@ import { scaleToGameWidth } from '../utils/align-utils';
 import PlainButton from '../ui/plain-button';
 import MainScene from '../scenes/main.scene';
 import Events from '../events';
+import RK from '../resources-keys';
 
 export const SCENE_NAME = 'TitleScene';
 
@@ -17,8 +18,6 @@ export default class TitleScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('title', 'assets/images/title.png');
-        this.load.image('button1', 'assets/images/buttons/round/blue.png');
     }
 
     create() {
@@ -30,13 +29,13 @@ export default class TitleScene extends Phaser.Scene {
         });
         //this.alignGrid.show();
 
-        const title = this.add.image(0, 0, 'title');
+        const title = this.add.image(0, 0, RK.TITLE);
         scaleToGameWidth(app, title, .8);
         this.alignGrid.placeAtIndex(38, title);
 
         const btnStart = new PlainButton({
             scene: this,
-            key: 'button1',
+            key: RK.START_BTN,
             text: 'Start',
             event: Events.START_GAME,
             app

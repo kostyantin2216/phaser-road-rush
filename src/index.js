@@ -4,6 +4,7 @@ import GameOverScreen from './scenes/game-over.scene';
 import TestScene from './scenes/test.scene';
 import MainScene from './scenes/main.scene';
 import TitleScene from './scenes/title.scene';
+import LoaderScene from './scenes/loader.scene';
 import fontLoader from './utils/font-loader';
 
 import app from './app';
@@ -28,6 +29,7 @@ window.onload = function() {
         width: width,
         height: height,
         scene: [
+            LoaderScene,
             TitleScene,
             MainScene,
             GameOverScreen

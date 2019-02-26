@@ -9,6 +9,7 @@ const MUSIC_CHANGED  = 'musicChanged';
 const SOUND_CHANGED  = 'soundChanged';
 const TOGGLE_MUSIC   = 'toggleMusic';
 const TOGGLE_SOUND   = 'toggleSound';
+const RESET_GAME     = 'resetGame';
 
 export default class Events {
     static get START_GAME()     { return START_GAME; }
@@ -21,4 +22,5 @@ export default class Events {
     static get SOUND_CHANGED()  { return SOUND_CHANGED; }
     static get TOGGLE_MUSIC()   { return TOGGLE_MUSIC; }
     static get TOGGLE_SOUND()   { return TOGGLE_SOUND; }
+    static get RESET_GAME()     { return RESET_GAME; }
 }
