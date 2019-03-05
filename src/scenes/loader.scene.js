@@ -32,6 +32,7 @@ export default class LoaderScene extends Phaser.Scene {
         this.load.on('progress', this.onProgress, this);
 
         this.load.image(RK.TITLE, 'assets/images/title.png');
+        this.load.image(RK.TITLE_BG, 'assets/images/titleBack.jpg');
         this.load.image(RK.START_BTN, 'assets/images/buttons/round/blue.png');
         this.load.image(RK.PLAY_AGAIN_BTN, 'assets/images/buttons/round/blue.png');
         this.load.image(RK.ROAD, 'assets/images/road.jpg');

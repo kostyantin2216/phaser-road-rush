@@ -27,7 +27,8 @@ export default class TitleScene extends Phaser.Scene {
             scene: this,
             app
         });
-        //this.alignGrid.show();
+
+        const background = this.add.image(app.game.config.width / 2, app.game.config.height / 2, RK.TITLE_BG);
 
         const title = this.add.image(0, 0, RK.TITLE);
         scaleToGameWidth(app, title, .8);

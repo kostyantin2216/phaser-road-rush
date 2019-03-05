@@ -20,7 +20,7 @@ export default class Controller {
     }
 
     scoreUpdated() {
-        if (app.model.speed < 1.75 && app.model.score / 5 === Math.floor(app.model.score / 5)) {
+        if (app.model.speed < 2 && app.model.score / 5 === Math.floor(app.model.score / 5)) {
             app.model.speed += .25;
         }
         console.log(app.model.score, app.model.speed);

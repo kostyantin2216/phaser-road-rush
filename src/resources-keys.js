@@ -13,6 +13,7 @@ const MUSIC_ON          = 'musicOn';
 const MUSIC_OFF         = 'musicOff';
 const TOGGLE_BG         = 'toggleBg';
 const TITLE             = 'title';
+const TITLE_BG          = 'titleBg';
 const START_BTN         = 'startBtn';
 const PLAY_AGAIN_BTN    = 'playAgainBtn';
 const CRASH_SOUND       = 'crashSound';
@@ -34,6 +35,7 @@ export default class Resources {
     static get MUSIC_OFF()         { return MUSIC_OFF; }
     static get TOGGLE_BG()         { return TOGGLE_BG; }
     static get TITLE()             { return TITLE; }
+    static get TITLE_BG()          { return TITLE_BG; }
     static get START_BTN()         { return START_BTN; }
     static get PLAY_AGAIN_BTN()    { return PLAY_AGAIN_BTN; }
     static get CRASH_SOUND()       { return CRASH_SOUND; }

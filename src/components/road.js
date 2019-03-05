@@ -26,7 +26,6 @@ export default class Road extends Phaser.GameObjects.Container {
 
         this.setSize(this.back.displayWidth, app.game.config.height);
 
-        this.count = 0;
         this.vSpace = 0;
         this.lineGroup = this.scene.add.group();
 
@@ -93,11 +92,9 @@ export default class Road extends Phaser.GameObjects.Container {
     }
 
     createLines() {
-        this.vSpace = this.displayHeight / 5;
-        for (let i = 0; i < 20; i++) {
-            const line = this.scene.add.image(this.x, (this.vSpace * i) - 50, RK.LINE);
-           // line.setScale(.7);
-            line.oy = line.y;
+        this.vSpace = this.displayHeight / 10;
+        for (let i = 10; i >= -1; i--) {
+            const line = this.scene.add.image(this.x, this.vSpace * i, RK.LINE);
             this.lineGroup.add(line);
         }
     }
@@ -105,20 +102,22 @@ export default class Road extends Phaser.GameObjects.Container {
     updateLines() {
         if (app.model.gameOver) return;
         
-        let printed = false;
-        this.lineGroup.children.iterate((child) => {
-            child.y += (this.vSpace / 20) * app.model.speed;
-            if (!printed) {
-                console.log(child.y);
-                printed = true;
-            }
-        });
-        this.count++;
-        if (this.count === 20) {
-            this.count = 0;
-            this.lineGroup.children.iterate((child) => {
-                child.y = child.oy;
+        const lineGroupChildren = this.lineGroup.getChildren();
+
+        if (lineGroupChildren.length) {
+            lineGroupChildren.forEach((child) => {
+                child.y += (this.vSpace / 20) * app.model.speed;
             });
+
+            const lastLine = lineGroupChildren[0];
+
+            if (lastLine.y > (app.game.config.height + this.vSpace)) {
+                this.lineGroup.remove(lastLine);
+                lastLine.destroy();
+                
+                const line = this.scene.add.image(this.x, -this.vSpace, RK.LINE);
+                this.lineGroup.add(line);
+            }
         }
     }
 }
